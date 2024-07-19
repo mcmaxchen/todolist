@@ -1,6 +1,7 @@
 import { useState } from "react";
+import { createTask } from "../api";
 
-function AddTask() {
+function AddTask({ props }) {
   const [task, setTask] = useState({
     title: "",
     description: "",
@@ -8,8 +9,13 @@ function AddTask() {
     status: "To do",
   });
 
+  const { setTasks } = props;
+
   function handleSubmit(e) {
     e.preventDefault();
+
+    // createTask(task);
+    setTasks((tasks) => [{ ...tasks, task }]);
   }
 
   return (

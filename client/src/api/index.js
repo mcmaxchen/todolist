@@ -5,7 +5,13 @@ async function api(method, path, data) {
     method: method,
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
-  });
+  })
+    .then(async (res) => {
+      return await res.json();
+    })
+    .catch((err) => {
+      return err;
+    });
 }
 
 async function get(path, data) {

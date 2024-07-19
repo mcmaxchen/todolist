@@ -1,30 +1,29 @@
 import { useEffect, useState } from "react";
 import AddTask from "./components/addTask";
+import { getTasks } from "./api";
 
 function App() {
   const [message, setMessage] = useState();
   const [tasks, setTasks] = useState();
 
   useEffect(() => {
-    // Fetch des tâches dans la BDD
-    fetch("http://localhost:8000/")
-      .then(async (result) => {
-        // Extrait en format JSON les data de result
-        const fetchedTasks = await result.json();
+    // Fetching tasks from the DB
+    async function fetchTasks() {
+      setTasks(await getTasks());
+    }
 
-        setTasks(fetchedTasks);
-      })
-      .catch((err) => setMessage(err.message));
+    fetchTasks();
   }, []);
 
   return (
     <>
-      <AddTask />
+      <AddTask props={{ setTasks }} />
 
-      {/* Affichage des tâches */}
-      {tasks?.map((task) => {
-        return <div>{task.title}</div>;
-      })}
+      {tasks ? console.log(tasks) : ""}
+
+      {/* {tasks?.map((task) => {
+        return <div key={task.id}>{task.title}</div>;
+      })} */}
     </>
   );
 }
