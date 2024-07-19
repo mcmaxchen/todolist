@@ -1,4 +1,7 @@
+const { host, user, password } = require("./config.json");
+
 const express = require("express");
+const mysql = require("mysql2");
 const cors = require("cors");
 const app = express();
 
@@ -9,9 +12,16 @@ app.use(cors());
 app.use(express.urlencoded());
 app.use(express.json());
 
-// Routes
-app.post("/", (req, res) => {
-  return res.send({ result: "OK" });
+// Connection with the DB
+
+const db = mysql.createConnection({
+  host: host,
+  user: user,
+  password: password,
+  database: "todolist",
 });
+
+// Routes
+app.use("/api", require("./routes/tasks"));
 
 app.listen(8000, () => console.log("Server listening on port 8000"));
