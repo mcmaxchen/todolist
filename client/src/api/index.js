@@ -1,5 +1,7 @@
 const URL = "http://localhost:8000";
 
+// API functions
+
 async function api(method, path, data) {
   return fetch(URL + path, {
     method: method,
@@ -14,8 +16,8 @@ async function api(method, path, data) {
     });
 }
 
-async function get(path, data) {
-  return await api("GET", path, data);
+async function get(path) {
+  return await api("GET", path);
 }
 
 async function post(path, data) {
@@ -30,18 +32,20 @@ async function remove(path, data) {
   return await api("DELETE", path, data);
 }
 
+// Tasks functions
+
 export async function getTasks() {
   return get("/api/tasks");
 }
 
 export async function createTask(data) {
-  return post("/api/task", data);
+  return post("/api/tasks", data);
 }
 
 export async function updateTask(id, data) {
-  return update("/api/task/" + id, data);
+  return update("/api/tasks/" + id, data);
 }
 
 export async function removeTask(id) {
-  return remove("/api/task/" + id);
+  return remove("/api/tasks/" + id);
 }
