@@ -21,12 +21,12 @@ You will need 2 terminals
 
 2. Install packages
 
--[on the first terminal:]
+- [on the first terminal:]
    cd client
    npm install
    npm start
 
--[on the second terminal:]
+- [on the second terminal:]
    // If you are not in the repository
    cd todolist
    //
