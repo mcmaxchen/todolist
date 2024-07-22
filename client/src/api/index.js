@@ -25,7 +25,7 @@ async function post(path, data) {
 }
 
 async function update(path, data) {
-  return await api("UPDATE", path, data);
+  return await api("PUT", path, data);
 }
 
 async function remove(path, data) {
@@ -36,6 +36,10 @@ async function remove(path, data) {
 
 export async function getTasks() {
   return get("/api/tasks");
+}
+
+export async function getTaskById(id) {
+  return get("/api/tasks/" + id);
 }
 
 export async function createTask(data) {
