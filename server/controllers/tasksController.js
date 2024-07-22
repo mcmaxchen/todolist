@@ -5,10 +5,12 @@ exports.getTasks = async (req, res) => {
   const [tasks] = await db.query("SELECT * FROM tasks");
 
   if (!tasks) {
-    return res.status(400).send({ message: "It seems there was an error" });
+    return res
+      .status(400)
+      .send({ success: false, message: "It seems there was an error" });
   }
 
-  res.status(200).send(tasks);
+  res.status(200).send({ success: true, tasks });
 };
 
 exports.getTaskById = async (req, res) => {
@@ -18,10 +20,12 @@ exports.getTaskById = async (req, res) => {
   const [task] = await db.query("SELECT * FROM tasks WHERE id = ?", [id]);
 
   if (!task) {
-    return res.status(404).send({ message: "This task does not exist" });
+    return res
+      .status(404)
+      .send({ success: false, message: "This task does not exist" });
   }
 
-  res.status(200).send(task[0]);
+  res.status(200).send({ success: true, task: task[0] });
 };
 
 exports.createTask = async (req, res) => {
@@ -34,12 +38,16 @@ exports.createTask = async (req, res) => {
   );
 
   if (insert?.insertId === null) {
-    return res.status(401).send({ message: "It seems an error occured" });
+    return res
+      .status(401)
+      .send({ success: false, message: "It seems an error occured" });
   }
 
-  res
-    .status(200)
-    .send({ id: insert.insertId, message: "Task created successfully" });
+  res.status(200).send({
+    success: true,
+    id: insert.insertId,
+    message: "Task created successfully",
+  });
 };
 
 exports.updateTask = async (req, res) => {
@@ -54,25 +62,27 @@ exports.updateTask = async (req, res) => {
   );
 
   if (!update) {
-    return res
-      .status(400)
-      .send({ message: "An error occurred while updating the task" });
+    return res.status(400).send({
+      success: false,
+      message: "An error occurred while updating the task",
+    });
   }
 
-  res.status(200).send({ message: "Task updated" });
+  res.status(200).send({ success: true, message: "Task updated" });
 };
 
 exports.deleteTask = async (req, res) => {
   const db = await connection();
   const { id } = req.params;
 
-  const [remove] = db.query("DELETE FROM tasks WHERE id = (?)", [id]);
+  const [remove] = await db.query("DELETE FROM tasks WHERE id = (?)", [id]);
 
   if (!remove) {
-    return res
-      .status(401)
-      .send({ message: "An error occurred while deleting the task" });
+    return res.status(401).send({
+      success: false,
+      message: "An error occurred while deleting the task",
+    });
   }
 
-  res.status(200).send({ message: "Task deleted" });
+  res.status(200).send({ success: true, message: "Task deleted" });
 };

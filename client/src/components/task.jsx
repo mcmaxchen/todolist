@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
+import DeleteTask from "./deleteTask";
 
 function Task({ props }) {
-  const { task } = props;
+  const { task, setTasks, setFilteredTasks } = props;
 
   return (
     <div className="flex justify-between items-end p-2 border-t rounded-md">
@@ -13,14 +14,18 @@ function Task({ props }) {
 
       <div className="flex flex-col gap-3">
         <div className="flex gap-2">
-          {/* // TODO: OnClick */}
           <Link
             to={"tasks/" + task.id}
             className="border rounded-md px-2 py-1 bg-blue-400"
           >
             Edit
           </Link>
-          <Link to="" className="border rounded-md px-2 py-1 bg-red-400">
+          <Link
+            onClick={() =>
+              DeleteTask({ id: task.id, setTasks, setFilteredTasks })
+            }
+            className="border rounded-md px-2 py-1 bg-red-400"
+          >
             Delete
           </Link>
         </div>

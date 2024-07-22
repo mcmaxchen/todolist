@@ -2,6 +2,7 @@ import { useState } from "react";
 import { createTask } from "../api";
 
 function AddTask({ props }) {
+  const [message, setMessage] = useState();
   const [task, setTask] = useState({
     id: "",
     title: "",
@@ -10,23 +11,33 @@ function AddTask({ props }) {
     status: "To do",
   });
 
-  const { setTasks } = props;
+  const { setTasks, setFilteredTasks, setVisibility } = props;
 
   async function handleSubmit(e) {
     e.preventDefault();
+    setMessage();
 
-    const newTask = await createTask(task);
-    setTask({ ...task, id: newTask.id });
+    if (task.title === "" || task.description === "" || task.duedate === "") {
+      return setMessage("Please fill the form");
+    }
 
-    addTaskToList();
-  }
+    const request = await createTask(task);
 
-  function addTaskToList() {
-    return setTasks((tasks) => [...tasks, task]);
+    if (request.success === false) {
+      return setMessage(request.message);
+    }
+
+    setMessage(request.message);
+    setFilteredTasks((tasks) => [...tasks, { ...task, id: request.id }]);
+    setTasks((tasks) => [...tasks, { ...task, id: request.id }]);
   }
 
   return (
-    <div className="p-4 border rounded-xl max-w-[496px]">
+    <div className="p-4 border rounded-xl max-w-[300px] bg-gray-500">
+      <button className="mb-2" onClick={() => setVisibility(false)}>
+        x
+      </button>
+
       <form
         onSubmit={(e) => handleSubmit(e)}
         className="flex flex-col gap-4 justify-center align-center"
@@ -58,6 +69,8 @@ function AddTask({ props }) {
             onChange={(e) => setTask({ ...task, description: e.target.value })}
           ></textarea>
         </div>
+
+        {message}
 
         <button className="px-4 py-2 border rounded-xl border-cyan-900 w-fit">
           Submit

@@ -10,7 +10,13 @@ function Update() {
 
   useEffect(() => {
     async function fetchTask() {
-      setUpdatedTask(await getTaskById(id));
+      const request = await getTaskById(id);
+
+      if (request.success === false) {
+        return setMessage("It seems there was an error when fetching the task");
+      }
+
+      setUpdatedTask(request.task);
     }
 
     fetchTask();
@@ -19,6 +25,14 @@ function Update() {
   async function handleSubmit(e) {
     e.preventDefault();
     setMessage();
+
+    if (
+      updatedTask.title === "" ||
+      updatedTask.description === "" ||
+      updatedTask.date === ""
+    ) {
+      return setMessage("Please fill the form");
+    }
 
     const request = await updateTask(id, updatedTask);
 

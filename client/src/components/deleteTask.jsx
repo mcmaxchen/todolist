@@ -1,22 +1,13 @@
 import { removeTask } from "../api";
 
-function DeleteTask(props) {
-  const { id, setVisibility } = props;
+async function DeleteTask(props) {
+  const { id, setTasks, setFilteredTasks } = props;
+  const request = await removeTask(id);
 
-  async function handleDelete() {
-    await removeTask(id);
+  if (request.success === true) {
+    setTasks((tasks) => tasks.filter((task) => task.id !== id));
+    setFilteredTasks((tasks) => tasks.filter((task) => task.id !== id));
   }
-
-  return (
-    <div>
-      <p>Do you really wish to delete this task ?</p>
-
-      <div className="flex gap-3">
-        <button onClick={() => handleDelete()}>Delete</button>
-        <button onClick={() => setVisibility(false)}>Cancel</button>
-      </div>
-    </div>
-  );
 }
 
 export default DeleteTask;
