@@ -1,1 +1,29 @@
-# todolist
+# To-do list
+
+A to-do list web appliaction for Okev Agency.
+
+## Table of contents
+- [Installation]
+
+## Prerequisites
+- Node.js 14.x or higher
+
+## Installation
+You will need 2 terminals
+
+1. Clone the repository:
+  
+   on the first terminal:
+   
+   git clone
+
+   cd client
+   npm install
+   npm start
+
+   on the second terminal:
+   
+   cd todolist
+   cd server
+   npm install
+   npm start
