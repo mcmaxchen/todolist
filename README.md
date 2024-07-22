@@ -15,7 +15,12 @@ You will need 2 terminals
    
    **git clone git@github.com:mcmaxchen/todolist.git todolist**
 
-3. Install packages
+2. Set up the database
+   
+   Create a database "todolist" on MySQL
+   Import the file "db.sql" using the command **mysql -u username -p todolist < db.sql** replace username by your username
+
+4. Install packages
 
 - [on the first terminal]
    cd client
